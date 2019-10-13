@@ -2,7 +2,7 @@ package com.lamadridblandongoyes.data.database
 
 import androidx.room.*
 import com.lamadridblandongoyes.data.DATABASE_LABELS_TABLE_NAME
-import com.lamadridblandongoyes.data.models.labels.DBLabelEntry
+import com.lamadridblandongoyes.data.models.database.DBLabelEntry
 import io.reactivex.Flowable
 
 @Dao
