@@ -45,5 +45,9 @@ dependencies {
     testImplementation testDependencies.junitTest
     testImplementation acceptanceTesting.espressoCore
 
+    //Dagger
+    implementation applicationDependencies.dagger
+    kapt applicationDependencies.daggerCompiler
+
     implementation project(':domain')
 }

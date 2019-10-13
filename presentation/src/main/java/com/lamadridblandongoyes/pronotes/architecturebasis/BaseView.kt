@@ -1,0 +1,3 @@
+package com.lamadridblandongoyes.pronotes.architecturebasis
+
+interface BaseView: IErrorHandler
