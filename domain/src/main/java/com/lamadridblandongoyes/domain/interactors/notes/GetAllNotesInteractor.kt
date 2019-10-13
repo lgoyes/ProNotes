@@ -10,9 +10,9 @@ class GetAllNotesInteractor(
     mSubscribeOnScheduler: Scheduler,
     mObserveOnScheduler: Scheduler,
     private val localStorageRepository: ILocalStorageRepository
-): FlowableUseCase<List<Note>, Void>(mSubscribeOnScheduler, mObserveOnScheduler) {
+): FlowableUseCase<List<Note>, Unit>(mSubscribeOnScheduler, mObserveOnScheduler) {
 
-    override fun buildUseCase(params: Void): Flowable<List<Note>> =
+    override fun buildUseCase(params: Unit): Flowable<List<Note>> =
         localStorageRepository.getAllNotes()
 
 }

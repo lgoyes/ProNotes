@@ -10,9 +10,9 @@ class GetAllLabelsInteractor(
     mSubscribeOnScheduler: Scheduler,
     mObserveOnScheduler: Scheduler,
     private val localStorageRepository: ILocalStorageRepository
-): FlowableUseCase<List<Label>, Void>(mSubscribeOnScheduler, mObserveOnScheduler) {
+): FlowableUseCase<List<Label>, Unit>(mSubscribeOnScheduler, mObserveOnScheduler) {
 
-    override fun buildUseCase(params: Void): Flowable<List<Label>> =
+    override fun buildUseCase(params: Unit): Flowable<List<Label>> =
         localStorageRepository.getAllLabels()
 
 }
