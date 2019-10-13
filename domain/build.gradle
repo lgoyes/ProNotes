@@ -40,6 +40,10 @@ dependencies {
     // Support libraries
     implementation androidDependencies.appCompat
 
+    //ReactiveX
+    implementation applicationDependencies.rxJava
+    implementation applicationDependencies.rxAndroid
+
     // Testing
     testImplementation testDependencies.junit
     testImplementation testDependencies.junitTest

@@ -17,7 +17,7 @@ interface ILabelsDao {
     fun insertLabels(labelEntries: List<DBLabelEntry>) : Array<Long>
 
     @Delete
-    fun deleteLabels(labelEntry: DBLabelEntry): Int
+    fun deleteLabel(labelEntry: DBLabelEntry): Int
 
     @Update
     fun updateLabels(labelEntry: DBLabelEntry): Int

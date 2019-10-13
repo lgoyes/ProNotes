@@ -2,10 +2,13 @@ package com.lamadridblandongoyes.data.wrappers
 
 import com.lamadridblandongoyes.data.models.database.DBLabelEntry
 import com.lamadridblandongoyes.domain.models.Label
-import io.reactivex.functions.Function
 
-object DBLabelEntryWrapper: Function<DBLabelEntry, Label> {
-    override fun apply(t: DBLabelEntry): Label {
-        return Label(t.labelId, t.title, t.color)
+object DBLabelEntryWrapper: IEncoderWrapper<DBLabelEntry, Label>, IDecoderWrapper<Label, DBLabelEntry> {
+    override fun map(input: DBLabelEntry): Label {
+        return Label(input.labelId, input.title, input.color)
+    }
+
+    override fun invert(input: Label): DBLabelEntry {
+        return DBLabelEntry(input.labelId, input.title, input.color)
     }
 }

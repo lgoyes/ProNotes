@@ -2,10 +2,23 @@ package com.lamadridblandongoyes.data.wrappers
 
 import com.lamadridblandongoyes.data.models.database.DBNoteEntry
 import com.lamadridblandongoyes.domain.models.Note
-import io.reactivex.functions.Function
 
-object DBNoteEntryWrapper: Function<DBNoteEntry, Note> {
-    override fun apply(t: DBNoteEntry): Note {
-        return Note(t.noteId, t.labelId, t.title, t.description, t.reminder)
+object DBNoteEntryWrapper: IEncoderWrapper<DBNoteEntry, Note>, IDecoderWrapper<Note, DBNoteEntry> {
+    override fun map(input: DBNoteEntry): Note {
+        return Note(
+            input.noteId,
+            input.labelId,
+            input.title,
+            input.description,
+            input.reminder)
+    }
+
+    override fun invert(input: Note): DBNoteEntry {
+        return DBNoteEntry(
+            input.noteId,
+            input.labelId,
+            input.title,
+            input.description,
+            input.reminder)
     }
 }
