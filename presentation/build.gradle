@@ -48,6 +48,11 @@ dependencies {
     kapt applicationDependencies.daggerCompiler
     kapt applicationDependencies.daggerAndroidProcessor
 
+    //ReactiveX
+    implementation applicationDependencies.rxJava
+    implementation applicationDependencies.rxAndroid
+    implementation applicationDependencies.rxBindings
+
     implementation project(':domain')
     implementation project(':data')
 }
