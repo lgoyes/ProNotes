@@ -2,8 +2,11 @@ package com.lamadridblandongoyes.pronotes.di
 
 import android.content.Context
 import com.lamadridblandongoyes.data.di.HelperModule
+import com.lamadridblandongoyes.pronotes.ProNotesApplication
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -16,7 +19,7 @@ import javax.inject.Singleton
         (InteractorModule::class),
         (HelperModule::class)]
 )
-interface AppComponent {
+interface AppComponent: AndroidInjector<DaggerApplication> {
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -24,4 +27,6 @@ interface AppComponent {
 
         fun build(): AppComponent
     }
+
+    fun inject(proNotesApplication: ProNotesApplication)
 }
