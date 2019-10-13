@@ -53,6 +53,11 @@ dependencies {
     implementation applicationDependencies.rxAndroid
     implementation applicationDependencies.rxBindings
 
+    //Coroutines
+    implementation applicationDependencies.kotlinCoroutines
+    implementation applicationDependencies.kotlinCoroutinesAndroid
+    implementation applicationDependencies.workmanager
+
     implementation project(':domain')
     implementation project(':data')
 }
