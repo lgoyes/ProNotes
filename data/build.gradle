@@ -49,5 +49,14 @@ dependencies {
     implementation applicationDependencies.dagger
     kapt applicationDependencies.daggerCompiler
 
+    //Room
+    implementation applicationDependencies.roomRuntime
+    implementation applicationDependencies.roomRX
+    kapt applicationDependencies.roomCompiler
+
+    //ReactiveX
+    implementation applicationDependencies.rxJava
+    implementation applicationDependencies.rxAndroid
+
     implementation project(':domain')
 }
