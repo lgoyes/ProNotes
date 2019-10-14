@@ -29,18 +29,19 @@ class NotesPresenter(
         view?.navigateTowardsNoteEditionWith(note = null)
     }
 
-    private fun storeInDataBase(indexToBeStored: Int) {
-        if (indexToBeStored > notes.size - 1) {
-            return
+    override fun processAddingNoteResult(note: Note?) {
+        note?.let {
+            subscriptions.add(
+                this.insertNoteInteractor
+                    .execute(it,
+                        {
+                            notes.add(note)
+                            view?.updateAdapterWith(notes)
+                        }, { error ->
+                            this.handleException(error)
+                        })
+            )
         }
-
-        subscriptions.add(
-            insertNoteInteractor.execute(notes[indexToBeStored],{
-                storeInDataBase(indexToBeStored + 1)
-            }, {
-                this.handleException(it)
-            })
-        )
     }
 
     private fun fetchNotes() {
@@ -51,8 +52,6 @@ class NotesPresenter(
                         it.updateAdapterWith( ArrayList(extractedNotes) )
                     }
                 } else {
-                    addNotes()
-                    storeInDataBase(0)
                     view?.let {
                         it.updateAdapterWith( this.notes )
                     }
@@ -60,133 +59,6 @@ class NotesPresenter(
             },{
                 this.handleException(it)
             })
-        )
-    }
-
-    private fun addNotes() {
-        notes.addAll(
-            arrayListOf(
-                Note(
-                null,
-                1,
-                "Title note 1",
-                "Description note 1",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 2",
-                "Description note 2",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 3",
-                "Description note 2. This is a larger description and I want to check if the height increases.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 4",
-                "This note has a short description.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 5",
-                "And this is the last note of all. I hope I can write a kind of cool description. However, the most possible thing it's that is not going to be that long.",
-                null),
-                Note(
-                0,
-                1,
-                "Title note 6",
-                "Description note 6",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 7",
-                "Description note 7",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 8",
-                "Description note 8. This is a larger description and I want to check if the height increases.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 9",
-                "This note has a short description.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 10",
-                "And this is the last note of all. I hope I can write a kind of cool description. However, the most possible thing it's that is not going to be that long.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 11",
-                "Description note 11",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 12",
-                "Description note 12",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 13",
-                "Description note 13. This is a larger description and I want to check if the height increases.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 14",
-                "This note has a short description.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 15",
-                "And this is the last note of all. I hope I can write a kind of cool description. However, the most possible thing it's that is not going to be that long.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 16",
-                "Description note 16",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 17",
-                "Description note 17",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 18",
-                "Description note 18. This is a larger description and I want to check if the height increases.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 19",
-                "This note has a short description.",
-                null),
-                Note(
-                    null,
-                1,
-                "Title note 20",
-                "And this is the last note of all. I hope I can write a kind of cool description. However, the most possible thing it's that is not going to be that long.",
-                null)
-            )
         )
     }
 }

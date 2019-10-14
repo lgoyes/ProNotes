@@ -3,4 +3,8 @@
     <string name="note_title">Note\'s title</string>
     <string name="note_description">Note\'s description</string>
     <string name="save_button">Save</string>
+    <string name="new_note">New Note</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="new_note_subtitle">Let\'s get our new note!</string>
+    <string name="edit_note_subtitle">Let\'s edit the old note!</string>
 </resources>
