@@ -1,6 +1,7 @@
 package com.lamadridblandongoyes.pronotes.notes
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Instrumentation
 import android.content.Intent
 import android.os.Bundle
@@ -48,6 +49,19 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View, NotesAdapter
     override fun onItemLongTapped(index: Int): Boolean {
         presenter.processItemLongTappedWith(index = index)
         return true
+    }
+
+    override fun askForDeletionConfirmationWith(index: Int) {
+        val builder = AlertDialog.Builder(this)
+            .apply {
+                setTitle(REMOVE_NOTE_TITLE)
+                setMessage(REMOVE_NOTE_SUBTITLE)
+                setPositiveButton(android.R.string.yes) { dialog, which ->
+                    presenter.deletionConfirmedWith(index)
+                }
+                setNegativeButton(android.R.string.no) { dialog, which -> }
+            }
+        builder.show()
     }
 
     private fun bindViews() {

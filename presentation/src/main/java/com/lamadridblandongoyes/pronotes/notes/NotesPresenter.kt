@@ -34,6 +34,10 @@ class NotesPresenter(
     }
 
     override fun processItemLongTappedWith(index: Int) {
+        view?.askForDeletionConfirmationWith(index)
+    }
+
+    override fun deletionConfirmedWith(index: Int) {
         notes[index].let { note ->
             subscriptions.add(
                 this.deleteNoteInteractor

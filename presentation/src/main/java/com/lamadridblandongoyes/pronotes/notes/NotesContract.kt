@@ -8,6 +8,7 @@ interface NotesContract {
     interface View: BaseView {
         fun updateAdapterWith(notes: ArrayList<Note>)
         fun navigateTowardsNoteEditionWith(note: Note?)
+        fun askForDeletionConfirmationWith(index: Int)
     }
 
     interface Presenter: BasePresenter<View> {
@@ -16,5 +17,6 @@ interface NotesContract {
         fun processEditingNoteResult(note: Note?)
         fun processItemTappedWith(index: Int)
         fun processItemLongTappedWith(index: Int)
+        fun deletionConfirmedWith(index: Int)
     }
 }

@@ -8,3 +8,5 @@ const val NOTES_NUMBER_OF_COLUMNS = 2
 const val INTENT_EXTRA_NOTE = "INTENT_EXTRA_NOTE"
 const val ADDING_NOTE_REQUEST_CODE = 0
 const val EDITING_NOTE_REQUEST_CODE = 1
+const val REMOVE_NOTE_TITLE = "Removing note"
+const val REMOVE_NOTE_SUBTITLE = "Are you sure you want to delete this note?"
