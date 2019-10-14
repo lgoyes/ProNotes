@@ -30,6 +30,7 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
+        bindViews()
         setupRecyclerView()
         setupAddButton()
 
@@ -37,9 +38,12 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
         presenter.bind(this)
     }
 
-    private fun setupRecyclerView() {
+    private fun bindViews() {
         this.recyclerView = notes_recyclerview
+        this.addButton = notes_floating_action_button
+    }
 
+    private fun setupRecyclerView() {
         this.recyclerView.layoutManager = StaggeredGridLayoutManager(
             NOTES_NUMBER_OF_COLUMNS,
             StaggeredGridLayoutManager.VERTICAL)
@@ -48,8 +52,6 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
     }
 
     private fun setupAddButton() {
-        this.addButton = notes_floating_action_button
-
         this.addButton.setOnClickListener {
             presenter.onAddButtonTapped()
         }

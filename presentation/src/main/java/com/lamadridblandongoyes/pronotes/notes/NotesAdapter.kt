@@ -3,7 +3,7 @@ package com.lamadridblandongoyes.pronotes.notes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.lamadridblandongoyes.domain.models.Note
 import com.lamadridblandongoyes.pronotes.R
@@ -39,7 +39,7 @@ class NotesAdapter: RecyclerView.Adapter<NoteViewHolder>() {
     }
 
     inner class NoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val tvTitle: TextView = itemView.note_title
-        val tvDescription: TextView = itemView.note_description
+        val tvTitle: AppCompatTextView = itemView.note_title
+        val tvDescription: AppCompatTextView = itemView.note_description
     }
 }

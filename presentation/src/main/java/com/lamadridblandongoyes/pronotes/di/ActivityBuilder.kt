@@ -1,5 +1,7 @@
 package com.lamadridblandongoyes.pronotes.di
 
+import com.lamadridblandongoyes.pronotes.noteedition.NoteEditionActivity
+import com.lamadridblandongoyes.pronotes.noteedition.NoteEditionModule
 import com.lamadridblandongoyes.pronotes.notes.NotesActivity
 import com.lamadridblandongoyes.pronotes.notes.NotesModule
 import dagger.Module
@@ -9,4 +11,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = [(NotesModule::class)])
     abstract fun bindNotesActivity(): NotesActivity
+
+    @ContributesAndroidInjector(modules = [(NoteEditionModule::class)])
+    abstract fun bindNoteEditionActivity(): NoteEditionActivity
 }

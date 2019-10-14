@@ -34,29 +34,33 @@ class NotesPresenter(
             return
         }
 
-        insertNoteInteractor.execute(notes[indexToBeStored],{
-            storeInDataBase(indexToBeStored + 1)
-        }, {
-            this.handleException(it)
-        })
+        subscriptions.add(
+            insertNoteInteractor.execute(notes[indexToBeStored],{
+                storeInDataBase(indexToBeStored + 1)
+            }, {
+                this.handleException(it)
+            })
+        )
     }
 
     private fun fetchNotes() {
-        getAllNotesInteractor.execute(Unit,{ extractedNotes ->
-            if (extractedNotes.isNotEmpty()) {
-                view?.let {
-                    it.updateAdapterWith( ArrayList(extractedNotes) )
+        subscriptions.add(
+            getAllNotesInteractor.execute(Unit,{ extractedNotes ->
+                if (extractedNotes.isNotEmpty()) {
+                    view?.let {
+                        it.updateAdapterWith( ArrayList(extractedNotes) )
+                    }
+                } else {
+                    addNotes()
+                    storeInDataBase(0)
+                    view?.let {
+                        it.updateAdapterWith( this.notes )
+                    }
                 }
-            } else {
-                addNotes()
-                storeInDataBase(0)
-                view?.let {
-                    it.updateAdapterWith( this.notes )
-                }
-            }
-        },{
-            this.handleException(it)
-        })
+            },{
+                this.handleException(it)
+            })
+        )
     }
 
     private fun addNotes() {
