@@ -9,8 +9,8 @@ import java.io.Serializable
     tableName = DATABASE_NOTES_TABLE_NAME
 )
 class DBNoteEntry (
-    @PrimaryKey
-    val noteId: Int,
+    @PrimaryKey(autoGenerate = true)
+    val noteId: Int? = null,
     val labelId: Int? = null,
     val title: String,
     val description: String,
