@@ -18,5 +18,6 @@ interface NoteEditionContract {
 
     interface Presenter: BasePresenter<View> {
         fun onSaveButtonTapped()
+        fun setNoteUnderEdition(noteUnderEdition: Note?)
     }
 }

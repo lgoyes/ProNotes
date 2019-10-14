@@ -11,7 +11,8 @@ import io.reactivex.disposables.CompositeDisposable
 
 class NotesPresenter(
     private val getAllNotesInteractor: FlowableUseCase<List<Note>, Unit>,
-    private val insertNoteInteractor: ObservableUseCase<Long, Note>
+    private val insertNoteInteractor: ObservableUseCase<Long, Note>,
+    private val updateNoteInteractor: ObservableUseCase<Int, Note>
 ): BasePresenter<NotesContract.View>, NotesContract.Presenter {
 
     override var view: NotesContract.View? = null
@@ -23,6 +24,16 @@ class NotesPresenter(
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun start() {
         fetchNotes()
+    }
+
+    override fun processItemTappedWith(index: Int) {
+        notes[index].let { note ->
+            view?.navigateTowardsNoteEditionWith(note = note)
+        }
+    }
+
+    override fun processItemLongTappedWith(index: Int) {
+        // Remove
     }
 
     override fun onAddButtonTapped() {
@@ -37,6 +48,26 @@ class NotesPresenter(
                         {
                             notes.add(note)
                             this.updateAdapter()
+                        }, { error ->
+                            this.handleException(error)
+                        })
+            )
+        }
+    }
+
+    override fun processEditingNoteResult(note: Note?) {
+        note?.let {
+            subscriptions.add(
+                this.updateNoteInteractor
+                    .execute(it,
+                        {
+                            notes.indexOfFirst {
+                                it.noteId == note.noteId
+                            }.let { indexToRemove ->
+                                notes.removeAt(indexToRemove)
+                                notes.add(note)
+                                this.updateAdapter()
+                            }
                         }, { error ->
                             this.handleException(error)
                         })

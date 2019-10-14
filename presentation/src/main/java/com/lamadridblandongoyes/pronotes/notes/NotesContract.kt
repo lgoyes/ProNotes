@@ -13,5 +13,8 @@ interface NotesContract {
     interface Presenter: BasePresenter<View> {
         fun onAddButtonTapped()
         fun processAddingNoteResult(note: Note?)
+        fun processEditingNoteResult(note: Note?)
+        fun processItemTappedWith(index: Int)
+        fun processItemLongTappedWith(index: Int)
     }
 }

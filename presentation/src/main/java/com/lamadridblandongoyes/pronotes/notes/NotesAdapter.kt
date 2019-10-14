@@ -10,7 +10,13 @@ import com.lamadridblandongoyes.pronotes.R
 import com.lamadridblandongoyes.pronotes.notes.NotesAdapter.NoteViewHolder
 import kotlinx.android.synthetic.main.row_note.view.*
 
-class NotesAdapter: RecyclerView.Adapter<NoteViewHolder>() {
+class NotesAdapter(private var itemTapListener: ItemTapListener)
+    : RecyclerView.Adapter<NoteViewHolder>() {
+
+    interface ItemTapListener {
+        fun onItemTapped(index: Int)
+        fun onItemLongTapped(index: Int): Boolean
+    }
 
     private var notes: ArrayList<Note> = ArrayList<Note>()
 
@@ -36,6 +42,14 @@ class NotesAdapter: RecyclerView.Adapter<NoteViewHolder>() {
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.tvTitle.text = notes[position].title
         holder.tvDescription.text = notes[position].description
+
+        holder.itemView.setOnClickListener {
+            itemTapListener.onItemTapped(position)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            itemTapListener.onItemLongTapped(position)
+        }
     }
 
     inner class NoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

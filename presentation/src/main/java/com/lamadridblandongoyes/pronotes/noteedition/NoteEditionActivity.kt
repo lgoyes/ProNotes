@@ -25,8 +25,6 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
     private lateinit var noteDescription: AppCompatEditText
     private lateinit var saveButton: AppCompatButton
 
-    private var noteUnderEdition: Note? = null
-
     override fun showError(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
     }
@@ -74,14 +72,15 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
     }
 
     private fun fillForm() {
-        this.noteUnderEdition = intent.extras?.getParcelable(INTENT_EXTRA_NOTE)
+        val noteUnderEdition: Note? = intent.extras?.getParcelable(INTENT_EXTRA_NOTE)
 
         if (noteUnderEdition == null) {
             fillFormForNewNote()
             return
         }
 
-        noteUnderEdition?.let {
+        noteUnderEdition.let {
+            presenter.setNoteUnderEdition(noteUnderEdition)
             fillFormForEditingNoteWith(it)
         }
     }
@@ -94,7 +93,7 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
     private fun fillFormForEditingNoteWith(note: Note) {
         formTitle.setText( R.string.edit_note )
         formSubtitle.setText( R.string.edit_note_subtitle )
-        noteTitle.setText(noteUnderEdition?.title)
-        noteDescription.setText(noteUnderEdition?.description)
+        noteTitle.setText(note.title)
+        noteDescription.setText(note.description)
     }
 }

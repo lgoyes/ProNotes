@@ -9,21 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.lamadridblandongoyes.domain.models.Note
-import com.lamadridblandongoyes.pronotes.ADDING_NOTE_REQUEST_CODE
-import com.lamadridblandongoyes.pronotes.INTENT_EXTRA_NOTE
-import com.lamadridblandongoyes.pronotes.NOTES_NUMBER_OF_COLUMNS
-import com.lamadridblandongoyes.pronotes.R
+import com.lamadridblandongoyes.pronotes.*
 import com.lamadridblandongoyes.pronotes.noteedition.NoteEditionActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_notes.*
 import javax.inject.Inject
 
-class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
+class NotesActivity: DaggerAppCompatActivity(), NotesContract.View, NotesAdapter.ItemTapListener {
 
     @Inject
     lateinit var presenter: NotesContract.Presenter
 
-    private var notesAdapter: NotesAdapter = NotesAdapter()
+    private var notesAdapter: NotesAdapter = NotesAdapter(this)
 
     private lateinit var recyclerView: RecyclerView
 
@@ -42,6 +39,14 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
 
         lifecycle.addObserver(presenter)
         presenter.bind(this)
+    }
+
+    override fun onItemTapped(index: Int) {
+        presenter.processItemTappedWith(index= index)
+    }
+
+    override fun onItemLongTapped(index: Int): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun bindViews() {
@@ -71,10 +76,16 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
 
     override fun navigateTowardsNoteEditionWith(note: Note?){
         val intent = Intent(this, NoteEditionActivity::class.java)
-        note?.let {
-            intent.putExtra(INTENT_EXTRA_NOTE, note)
+
+        if (note == null) {
+            startActivityForResult(intent, ADDING_NOTE_REQUEST_CODE)
+            return
         }
-        startActivityForResult(intent, ADDING_NOTE_REQUEST_CODE)
+
+        note.let {
+            intent.putExtra(INTENT_EXTRA_NOTE, note)
+            startActivityForResult(intent, EDITING_NOTE_REQUEST_CODE)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -87,6 +98,9 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
         when (requestCode) {
             ADDING_NOTE_REQUEST_CODE -> {
                 presenter.processAddingNoteResult(data?.extras?.getParcelable(INTENT_EXTRA_NOTE))
+            }
+            EDITING_NOTE_REQUEST_CODE -> {
+                presenter.processEditingNoteResult(data?.extras?.getParcelable(INTENT_EXTRA_NOTE))
             }
         }
     }
