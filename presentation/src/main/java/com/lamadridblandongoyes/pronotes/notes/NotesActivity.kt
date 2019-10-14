@@ -46,7 +46,8 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View, NotesAdapter
     }
 
     override fun onItemLongTapped(index: Int): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        presenter.processItemLongTappedWith(index = index)
+        return true
     }
 
     private fun bindViews() {
