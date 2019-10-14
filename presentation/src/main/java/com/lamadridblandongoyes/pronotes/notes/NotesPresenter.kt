@@ -36,7 +36,7 @@ class NotesPresenter(
                     .execute(it,
                         {
                             notes.add(note)
-                            view?.updateAdapterWith(notes)
+                            this.updateAdapter()
                         }, { error ->
                             this.handleException(error)
                         })
@@ -47,18 +47,15 @@ class NotesPresenter(
     private fun fetchNotes() {
         subscriptions.add(
             getAllNotesInteractor.execute(Unit,{ extractedNotes ->
-                if (extractedNotes.isNotEmpty()) {
-                    view?.let {
-                        it.updateAdapterWith( ArrayList(extractedNotes) )
-                    }
-                } else {
-                    view?.let {
-                        it.updateAdapterWith( this.notes )
-                    }
-                }
+                this.notes = ArrayList( extractedNotes )
+                this.updateAdapter()
             },{
                 this.handleException(it)
             })
         )
+    }
+
+    private fun updateAdapter() {
+        view?.updateAdapterWith(this.notes)
     }
 }
