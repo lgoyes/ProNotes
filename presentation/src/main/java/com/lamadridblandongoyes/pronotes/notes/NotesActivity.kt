@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.lamadridblandongoyes.domain.models.Note
 import com.lamadridblandongoyes.pronotes.NOTES_NUMBER_OF_COLUMNS
 import com.lamadridblandongoyes.pronotes.R
@@ -17,7 +18,10 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
     lateinit var presenter: NotesContract.Presenter
 
     private var notesAdapter: NotesAdapter = NotesAdapter()
+
     private lateinit var recyclerView: RecyclerView
+
+    private lateinit var addButton: FloatingActionButton
 
     override fun showError(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
@@ -27,6 +31,7 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
         setupRecyclerView()
+        setupAddButton()
 
         lifecycle.addObserver(presenter)
         presenter.bind(this)
@@ -42,9 +47,21 @@ class NotesActivity: DaggerAppCompatActivity(), NotesContract.View {
         this.recyclerView.adapter = notesAdapter
     }
 
+    private fun setupAddButton() {
+        this.addButton = notes_floating_action_button
+
+        this.addButton.setOnClickListener {
+            presenter.onAddButtonTapped()
+        }
+    }
+
     override fun updateAdapterWith(notes: ArrayList<Note>) {
         this.notesAdapter.clearNotes()
         this.notesAdapter.addNotes(notes)
         this.notesAdapter.notifyDataSetChanged()
+    }
+
+    override fun navigateTowardsNoteEditionWith(note: Note?){
+        
     }
 }

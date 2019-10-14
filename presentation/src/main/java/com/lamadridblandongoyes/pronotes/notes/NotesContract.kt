@@ -7,9 +7,10 @@ import com.lamadridblandongoyes.pronotes.architecturebasis.BaseView
 interface NotesContract {
     interface View: BaseView {
         fun updateAdapterWith(notes: ArrayList<Note>)
+        fun navigateTowardsNoteEditionWith(note: Note?)
     }
 
     interface Presenter: BasePresenter<View> {
-
+        fun onAddButtonTapped()
     }
 }

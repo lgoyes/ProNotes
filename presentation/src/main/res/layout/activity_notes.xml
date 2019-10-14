@@ -19,4 +19,16 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/notes_floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_add_black_24dp"
+        android:tint="@color/white"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ class NotesPresenter(
     private val getAllNotesInteractor: FlowableUseCase<List<Note>, Unit>,
     private val insertNoteInteractor: ObservableUseCase<Long, Note>
 ): BasePresenter<NotesContract.View>, NotesContract.Presenter {
+
     override var view: NotesContract.View? = null
     override var errorHandler: IErrorHandler? = null
     override val subscriptions = CompositeDisposable()
@@ -22,6 +23,10 @@ class NotesPresenter(
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun start() {
         fetchNotes()
+    }
+
+    override fun onAddButtonTapped() {
+        view?.navigateTowardsNoteEditionWith(note = null)
     }
 
     private fun storeInDataBase(indexToBeStored: Int) {
