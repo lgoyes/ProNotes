@@ -61,7 +61,7 @@ class LabelEditionPresenter: BasePresenter<LabelEditionContract.View>, LabelEdit
     }
 
     private fun isValid(data: LabelEditionContract.View.ViewModel): Boolean {
-        return data.title.isNotEmpty()
+        return data.title.isNotEmpty() && data.color.isNotEmpty()
     }
 
     private fun wrapEditedData(viewModel: LabelEditionContract.View.ViewModel): Label {

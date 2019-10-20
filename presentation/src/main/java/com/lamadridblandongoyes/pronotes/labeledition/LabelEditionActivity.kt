@@ -12,10 +12,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import com.lamadridblandongoyes.domain.models.Label
-import com.lamadridblandongoyes.pronotes.INTENT_EXTRA_LABEL
-import com.lamadridblandongoyes.pronotes.LABEL_VALIDATION_ERROR_SUBTITLE
-import com.lamadridblandongoyes.pronotes.LABEL_VALIDATION_ERROR_TITLE
-import com.lamadridblandongoyes.pronotes.R
+import com.lamadridblandongoyes.pronotes.*
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
@@ -128,8 +125,7 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
 
     override fun presentColorPickerDialog() {
         ColorPickerDialog.Builder(this)
-            .setTitle("ColorPicker Dialog")
-            .setPreferenceName("MyColorPickerDialog")
+            .setTitle(PICK_THE_LABEL_COLOR)
             .setPositiveButton(android.R.string.ok, this)
             .setNegativeButton(android.R.string.cancel) { dialogInterface: DialogInterface, _ ->
                 dialogInterface.dismiss()
