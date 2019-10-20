@@ -16,10 +16,18 @@ class NoteEditionPresenter: BasePresenter<NoteEditionContract.View>, NoteEdition
 
     override fun onSaveButtonTapped() {
         view?.getFormData()?.let { data ->
-            view?.navigateBackWith(
-                wrapEditedData(data)
-            )
+            if(isValid(data)) {
+                view?.navigateBackWith(
+                    wrapEditedData(data)
+                )
+            }else{
+                view?.showValidationError()
+            }
         }
+    }
+
+    private fun isValid(data: NoteEditionContract.View.ViewModel): Boolean {
+        return !(data.description.isEmpty() && data.title.isEmpty())
     }
 
     override fun setNoteUnderEdition(noteUnderEdition: Note?) {

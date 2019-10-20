@@ -14,6 +14,7 @@ interface NoteEditionContract {
         )
         fun getFormData(): NoteEditionContract.View.ViewModel
         fun navigateBackWith(note: Note?)
+        fun showValidationError()
     }
 
     interface Presenter: BasePresenter<View> {

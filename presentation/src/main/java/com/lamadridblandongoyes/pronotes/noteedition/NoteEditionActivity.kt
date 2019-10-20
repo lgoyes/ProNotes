@@ -1,6 +1,7 @@
 package com.lamadridblandongoyes.pronotes.noteedition
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -9,6 +10,8 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import com.lamadridblandongoyes.domain.models.Note
 import com.lamadridblandongoyes.pronotes.INTENT_EXTRA_NOTE
+import com.lamadridblandongoyes.pronotes.NOTE_VALIDATION_ERROR_SUBTITLE
+import com.lamadridblandongoyes.pronotes.NOTE_VALIDATION_ERROR_TITLE
 import com.lamadridblandongoyes.pronotes.R
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_note_edition.*
@@ -55,6 +58,16 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
             setResult(Activity.RESULT_OK, resultIntent)
         }
         finish()
+    }
+
+    override fun showValidationError() {
+        val builder = AlertDialog.Builder(this)
+            .apply {
+                setTitle(NOTE_VALIDATION_ERROR_TITLE)
+                setMessage(NOTE_VALIDATION_ERROR_SUBTITLE)
+                setPositiveButton(android.R.string.ok, { _, _ -> })
+            }
+        builder.show()
     }
 
     private fun bindViews() {
