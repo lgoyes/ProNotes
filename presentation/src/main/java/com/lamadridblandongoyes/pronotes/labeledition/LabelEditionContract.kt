@@ -18,10 +18,12 @@ interface LabelEditionContract {
         fun setLabelTitle(text: String)
         fun setLabelColor(hexColor: String)
         fun setLabelColorText(text: String)
+        fun presentColorPickerDialog()
     }
 
     interface Presenter: BasePresenter<View> {
         fun onSaveButtonTapped()
+        fun onSelectColorTapped()
         fun setLabelUnderEdition(labelUnderEdition: Label?)
     }
 }

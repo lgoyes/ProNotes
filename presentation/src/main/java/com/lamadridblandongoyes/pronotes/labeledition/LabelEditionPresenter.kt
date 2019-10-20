@@ -52,6 +52,10 @@ class LabelEditionPresenter: BasePresenter<LabelEditionContract.View>, LabelEdit
         }
     }
 
+    override fun onSelectColorTapped() {
+        view?.presentColorPickerDialog()
+    }
+
     override fun setLabelUnderEdition(labelUnderEdition: Label?) {
         this.labelUnderEdition = labelUnderEdition
     }

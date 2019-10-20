@@ -36,7 +36,8 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
         setContentView(R.layout.activity_label_edition)
         bindViews()
         setupSaveButton()
-        fillForm()
+        setupSelectColorButton()
+        extractIntentExtras()
 
         lifecycle.addObserver(presenter)
         presenter.bind(this)
@@ -86,7 +87,13 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
         }
     }
 
-    private fun fillForm() {
+    private fun setupSelectColorButton() {
+        this.selectColorButton.setOnClickListener {
+            presenter.onSelectColorTapped()
+        }
+    }
+
+    private fun extractIntentExtras() {
         (intent.extras?.getParcelable(INTENT_EXTRA_LABEL) as? Label)?.let{
             presenter.setLabelUnderEdition(it)
         }
@@ -110,5 +117,9 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
 
     override fun setLabelColorText(text: String) {
         labelColorTextView.text = text
+    }
+
+    override fun presentColorPickerDialog() {
+        
     }
 }
