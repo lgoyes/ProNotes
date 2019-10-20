@@ -3,17 +3,25 @@ package com.lamadridblandongoyes.pronotes.home
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.lamadridblandongoyes.pronotes.TAB_TITLE_LABELS
+import com.lamadridblandongoyes.pronotes.TAB_TITLE_NOTES
 import com.lamadridblandongoyes.pronotes.labels.LabelsFragment
 import com.lamadridblandongoyes.pronotes.notes.NotesFragment
 
-class PagerAdapter(fragmentManager: FragmentManager): FragmentPagerAdapter(fragmentManager) {
+class PagerAdapter(
+    fragmentManager: FragmentManager,
+    private val notesFragment: NotesFragment,
+    private val labelsFragment: LabelsFragment
+): FragmentPagerAdapter(fragmentManager) {
+
+
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                NotesFragment.newInstance()
+                notesFragment
             }
             else -> {
-                LabelsFragment.newInstance()
+                labelsFragment
             }
         }
     }
@@ -23,10 +31,10 @@ class PagerAdapter(fragmentManager: FragmentManager): FragmentPagerAdapter(fragm
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
             0 -> {
-                "Notes"
+                TAB_TITLE_NOTES
             }
             else -> {
-                "Labels"
+                TAB_TITLE_LABELS
             }
         }
     }

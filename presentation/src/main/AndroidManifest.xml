@@ -23,12 +23,6 @@
         </activity>
 
         <activity
-            android:name=".notes.NotesActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
             android:name=".noteedition.NoteEditionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">

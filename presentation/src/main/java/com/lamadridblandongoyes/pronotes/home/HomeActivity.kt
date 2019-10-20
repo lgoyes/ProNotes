@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.lamadridblandongoyes.pronotes.R
+import com.lamadridblandongoyes.pronotes.labels.LabelsFragment
+import com.lamadridblandongoyes.pronotes.notes.NotesFragment
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
@@ -26,6 +28,7 @@ class HomeActivity: DaggerAppCompatActivity(), HomeContract.View {
         setContentView(R.layout.activity_home)
 
         bindViews()
+        prepareAdapter()
         setupViewPager()
 
         lifecycle.addObserver(presenter)
@@ -38,7 +41,16 @@ class HomeActivity: DaggerAppCompatActivity(), HomeContract.View {
     }
 
     private fun setupViewPager() {
-        this.viewPager.adapter = PagerAdapter(supportFragmentManager)
         this.tabLayout.setupWithViewPager(this.viewPager)
+    }
+
+    private fun prepareAdapter() {
+        val notesFragment = NotesFragment.newInstance()
+        val labelsFragment = LabelsFragment.newInstance()
+
+        this.viewPager.adapter = PagerAdapter(
+            supportFragmentManager,
+            notesFragment,
+            labelsFragment)
     }
 }
