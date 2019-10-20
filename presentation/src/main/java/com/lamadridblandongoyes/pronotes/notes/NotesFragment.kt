@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class NotesFragment: DaggerFragment(),
     NotesContract.View,
-    NotesAdapter.ItemTapListener {
+    ItemTapListener {
 
     @Inject
     lateinit var presenter: NotesContract.Presenter
@@ -103,7 +103,7 @@ class NotesFragment: DaggerFragment(),
     }
 
     override fun showError(error: String) {
-        Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, error, Toast.LENGTH_LONG).show()
     }
 
     override fun onItemTapped(index: Int) {

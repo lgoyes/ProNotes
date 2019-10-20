@@ -13,11 +13,6 @@ import kotlinx.android.synthetic.main.row_note.view.*
 class NotesAdapter(private var itemTapListener: ItemTapListener)
     : RecyclerView.Adapter<NoteViewHolder>() {
 
-    interface ItemTapListener {
-        fun onItemTapped(index: Int)
-        fun onItemLongTapped(index: Int): Boolean
-    }
-
     private var notes: ArrayList<Note> = ArrayList<Note>()
 
     fun addNotes(notes: ArrayList<Note>) {
