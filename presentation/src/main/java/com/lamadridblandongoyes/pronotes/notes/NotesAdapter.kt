@@ -49,9 +49,12 @@ class NotesAdapter(private var itemTapListener: ItemTapListener)
         holder.tvDescription.text = note.description
 
         note.labelId?.let { labelId ->
-            labels.firstOrNull { it.labelId == labelId }?.let {
-                    holder.containerView.setCardBackgroundColor(Color.parseColor(it.color))
-                }
+            val notesLabel = labels.firstOrNull { it.labelId == labelId }
+            if (notesLabel == null) {
+                holder.containerView.setCardBackgroundColor(Color.WHITE)
+            }else {
+                holder.containerView.setCardBackgroundColor(Color.parseColor(notesLabel.color))
+            }
         }
 
         holder.itemView.setOnClickListener {
