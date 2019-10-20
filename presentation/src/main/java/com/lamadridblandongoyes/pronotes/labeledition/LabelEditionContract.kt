@@ -13,6 +13,11 @@ interface LabelEditionContract {
         fun getFormData(): LabelEditionContract.View.ViewModel
         fun navigateBackWith(label: Label?)
         fun showValidationError()
+        fun setFormTitle(text: String)
+        fun setFormSubtitle(text: String)
+        fun setLabelTitle(text: String)
+        fun setLabelColor(hexColor: String)
+        fun setLabelColorText(text: String)
     }
 
     interface Presenter: BasePresenter<View> {

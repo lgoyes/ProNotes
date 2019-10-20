@@ -3,10 +3,12 @@ package com.lamadridblandongoyes.pronotes.labeledition
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import com.lamadridblandongoyes.domain.models.Label
 import com.lamadridblandongoyes.pronotes.INTENT_EXTRA_LABEL
@@ -26,6 +28,8 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
     private lateinit var formSubtitle: AppCompatTextView
     private lateinit var labelTitle: AppCompatEditText
     private lateinit var saveButton: AppCompatButton
+    private lateinit var labelColorTextView: AppCompatTextView
+    private lateinit var selectColorButton: AppCompatImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +76,8 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
         formSubtitle = label_edition_form_subtitle
         labelTitle = label_edition_label_title_field
         saveButton = label_edition_save_button
+        labelColorTextView = label_edition_label_color
+        selectColorButton = label_edition_select_color_button
     }
 
     private fun setupSaveButton() {
@@ -81,27 +87,28 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
     }
 
     private fun fillForm() {
-        val labelUnderEdition: Label? = intent.extras?.getParcelable(INTENT_EXTRA_LABEL)
-
-        if (labelUnderEdition == null) {
-            fillFormForNewLabel()
-            return
-        }
-
-        labelUnderEdition.let {
-            presenter.setLabelUnderEdition(labelUnderEdition)
-            fillFormForEditingLabelWith(it)
+        (intent.extras?.getParcelable(INTENT_EXTRA_LABEL) as? Label)?.let{
+            presenter.setLabelUnderEdition(it)
         }
     }
 
-    private fun fillFormForNewLabel() {
-        formTitle.setText( R.string.new_label)
-        formSubtitle.setText(R.string.new_label_subtitle)
+    override fun setFormTitle(text: String) {
+        formTitle.text = text
     }
 
-    private fun fillFormForEditingLabelWith(label: Label) {
-        formTitle.setText( R.string.edit_label )
-        formSubtitle.setText( R.string.edit_label_subtitle )
-        labelTitle.setText(label.title)
+    override fun setFormSubtitle(text: String) {
+        formSubtitle.text = text
+    }
+
+    override fun setLabelTitle(text: String) {
+        labelTitle.setText(text)
+    }
+
+    override fun setLabelColor(hexColor: String) {
+        labelColorTextView.setBackgroundColor(Color.parseColor(hexColor))
+    }
+
+    override fun setLabelColorText(text: String) {
+        labelColorTextView.text = text
     }
 }

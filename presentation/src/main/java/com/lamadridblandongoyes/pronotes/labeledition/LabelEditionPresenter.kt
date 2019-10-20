@@ -1,6 +1,9 @@
 package com.lamadridblandongoyes.pronotes.labeledition
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import com.lamadridblandongoyes.domain.models.Label
+import com.lamadridblandongoyes.pronotes.*
 import com.lamadridblandongoyes.pronotes.architecturebasis.BasePresenter
 import com.lamadridblandongoyes.pronotes.architecturebasis.IErrorHandler
 import io.reactivex.disposables.CompositeDisposable
@@ -12,6 +15,30 @@ class LabelEditionPresenter: BasePresenter<LabelEditionContract.View>, LabelEdit
 
     private var labelUnderEdition: Label? = null
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun start() {
+        view?.setLabelColorText(LABEL_COLOR)
+
+        if (labelUnderEdition == null) {
+            fillFormForNewLabel()
+        } else {
+            fillFormForEditingLabel()
+        }
+    }
+
+    fun fillFormForNewLabel() {
+        view?.setFormTitle(NEW_LABEL_TITLE)
+        view?.setFormSubtitle(NEW_LABEL_SUBTITLE)
+    }
+
+    fun fillFormForEditingLabel() {
+        view?.setFormTitle(EDIT_LABEL_TITLE)
+        view?.setFormSubtitle(EDIT_LABEL_SUBTITLE)
+        labelUnderEdition?.let {
+            view?.setLabelTitle(it.title)
+            view?.setLabelColor(it.color)
+        }
+    }
 
     override fun onSaveButtonTapped() {
         view?.getFormData()?.let { data ->

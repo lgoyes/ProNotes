@@ -6,8 +6,4 @@
     <string name="save_button">Save</string>
 
     <string name="label_title">Label\'s title</string>
-    <string name="new_label">New Label</string>
-    <string name="edit_label">Edit Label</string>
-    <string name="new_label_subtitle">Let\'s get our new label!</string>
-    <string name="edit_label_subtitle">Let\'s edit the old label!</string>
 </resources>
