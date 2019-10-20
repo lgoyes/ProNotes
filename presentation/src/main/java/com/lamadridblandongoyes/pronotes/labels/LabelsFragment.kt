@@ -68,7 +68,7 @@ class LabelsFragment: DaggerFragment(),
         }
 
         label.let {
-            intent.putExtra(INTENT_EXTRA_NOTE, label)
+            intent.putExtra(INTENT_EXTRA_LABEL, label)
             startActivityForResult(intent, EDITING_LABEL_REQUEST_CODE)
         }
     }
@@ -82,10 +82,10 @@ class LabelsFragment: DaggerFragment(),
 
         when (requestCode) {
             ADDING_LABEL_REQUEST_CODE -> {
-                presenter.processAddingLabelResult(data?.extras?.getParcelable(INTENT_EXTRA_NOTE))
+                presenter.processAddingLabelResult(data?.extras?.getParcelable(INTENT_EXTRA_LABEL))
             }
             EDITING_LABEL_REQUEST_CODE -> {
-                presenter.processEditingLabelResult(data?.extras?.getParcelable(INTENT_EXTRA_NOTE))
+                presenter.processEditingLabelResult(data?.extras?.getParcelable(INTENT_EXTRA_LABEL))
             }
         }
     }
