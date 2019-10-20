@@ -1,9 +1,11 @@
 package com.lamadridblandongoyes.pronotes.labels
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.lamadridblandongoyes.domain.models.Label
 import com.lamadridblandongoyes.pronotes.R
@@ -37,7 +39,11 @@ class LabelsAdapter(private var itemTapListener: ItemTapListener)
     override fun getItemCount(): Int = labels.size
 
     override fun onBindViewHolder(holder: LabelViewHolder, position: Int) {
-        holder.tvTitle.text = labels[position].title
+        val label = labels[position]
+
+        holder.tvTitle.text = label.title
+
+        holder.containerView.setCardBackgroundColor(Color.parseColor(label.color))
 
         holder.itemView.setOnClickListener {
             itemTapListener.onItemTapped(position)
@@ -50,5 +56,6 @@ class LabelsAdapter(private var itemTapListener: ItemTapListener)
 
     inner class LabelViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val tvTitle: AppCompatTextView = itemView.label_title
+        val containerView: CardView = itemView.row_label_container
     }
 }
