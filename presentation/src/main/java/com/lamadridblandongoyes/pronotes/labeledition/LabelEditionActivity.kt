@@ -41,7 +41,7 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
     override fun getFormData(): LabelEditionContract.View.ViewModel =
         LabelEditionContract.View.ViewModel(
             labelTitle.text.toString(),
-            "FF0000"
+            "#FF0000"
         )
 
     override fun navigateBackWith(label: Label?) {

@@ -4,9 +4,11 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.AppCompatTextView
 import com.lamadridblandongoyes.domain.models.Label
 import com.lamadridblandongoyes.domain.models.Note
@@ -24,9 +26,8 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
     private lateinit var formSubtitle: AppCompatTextView
     private lateinit var noteTitle: AppCompatEditText
     private lateinit var noteDescription: AppCompatEditText
+    private lateinit var labelSpinner: AppCompatSpinner
     private lateinit var saveButton: AppCompatButton
-
-    private var labels: ArrayList<Label> = ArrayList<Label>()
 
     override fun showError(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
@@ -37,7 +38,7 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
         setContentView(R.layout.activity_note_edition)
         bindViews()
         setupSaveButton()
-        fillForm()
+        extractIntentExtras()
 
         lifecycle.addObserver(presenter)
         presenter.bind(this)
@@ -48,7 +49,7 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
             noteTitle.text.toString(),
             noteDescription.text.toString(),
             null,
-            null
+            labelSpinner.selectedItemPosition
         )
 
     override fun navigateBackWith(note: Note?) {
@@ -76,6 +77,7 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
         noteTitle = note_edition_note_title_field
         noteDescription = note_edition_note_description_field
         saveButton = note_edition_save_button
+        labelSpinner = note_edition_label_picker
     }
 
     private fun setupSaveButton() {
@@ -84,33 +86,45 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
         }
     }
 
-    private fun fillForm() {
-        val noteUnderEdition: Note? = intent.extras?.getParcelable(INTENT_EXTRA_NOTE)
+    private fun extractIntentExtras() {
+        (intent.extras?.getParcelable(INTENT_EXTRA_NOTE) as? Note)?.let{ noteUnderEdition ->
+            presenter.setNoteUnderEdition(noteUnderEdition)
+        }
+
 
         intent.extras?.getParcelableArrayList<Label>(INTENT_EXTRA_LABEL_LIST)?.let {
-            this.labels = it
-        }
-
-        if (noteUnderEdition == null) {
-            fillFormForNewNote()
-            return
-        }
-
-        noteUnderEdition.let {
-            presenter.setNoteUnderEdition(noteUnderEdition)
-            fillFormForEditingNoteWith(it)
+            presenter.setLabels(it)
         }
     }
 
-    private fun fillFormForNewNote() {
-        formTitle.setText( R.string.new_note)
-        formSubtitle.setText(R.string.new_note_subtitle)
+    override fun setFormTitle(text: String) {
+        formTitle.text = text
     }
 
-    private fun fillFormForEditingNoteWith(note: Note) {
-        formTitle.setText( R.string.edit_note )
-        formSubtitle.setText( R.string.edit_note_subtitle )
-        noteTitle.setText(note.title)
-        noteDescription.setText(note.description)
+    override fun setFormSubtitle(text: String) {
+        formSubtitle.text = text
+    }
+
+    override fun setNoteTitle(text: String) {
+        noteTitle.setText(text)
+    }
+
+    override fun setNoteDescription(text: String) {
+        noteDescription.setText(text)
+    }
+
+    override fun selectSpinnerOption(index: Int) {
+        labelSpinner.setSelection(index)
+    }
+
+    override fun setSpinnerOptions(labels: List<String>) {
+        val arrayAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            labels)
+
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        this.labelSpinner.adapter = arrayAdapter
     }
 }

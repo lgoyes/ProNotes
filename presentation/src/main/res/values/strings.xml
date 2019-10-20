@@ -4,10 +4,6 @@
     <string name="note_description">Note\'s description</string>
     <string name="note_select_label">Select label</string>
     <string name="save_button">Save</string>
-    <string name="new_note">New Note</string>
-    <string name="edit_note">Edit Note</string>
-    <string name="new_note_subtitle">Let\'s get our new note!</string>
-    <string name="edit_note_subtitle">Let\'s edit the old note!</string>
 
     <string name="label_title">Label\'s title</string>
     <string name="new_label">New Label</string>

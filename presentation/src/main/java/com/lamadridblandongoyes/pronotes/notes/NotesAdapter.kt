@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.lamadridblandongoyes.domain.models.Label
 import com.lamadridblandongoyes.domain.models.Note
@@ -49,7 +50,7 @@ class NotesAdapter(private var itemTapListener: ItemTapListener)
 
         note.labelId?.let { labelId ->
             labels.firstOrNull { it.labelId == labelId }?.let {
-                    holder.itemView.setBackgroundColor(Color.parseColor(it.color))
+                    holder.containerView.setCardBackgroundColor(Color.parseColor(it.color))
                 }
         }
 
@@ -65,5 +66,6 @@ class NotesAdapter(private var itemTapListener: ItemTapListener)
     inner class NoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val tvTitle: AppCompatTextView = itemView.note_title
         val tvDescription: AppCompatTextView = itemView.note_description
+        val containerView: CardView = itemView.row_note_container
     }
 }
