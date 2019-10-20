@@ -58,7 +58,7 @@ ext {
             appCompatV4           : "androidx.legacy:legacy-support-v4:$android_x_appCompat_version",
             appCompatV7           : "androidx.appcompat:appcompat:$android_x_appCompat_version",
             customTabs            : "androidx.browser:browser:$android_x_appCompat_version",
-            colorSheet            : "dev.sasikanth:colorsheet:1.0.1",
+            colorPicker           : "com.github.skydoves:colorpickerpreference:2.0.0",
     ]
 
     mainApplication = [

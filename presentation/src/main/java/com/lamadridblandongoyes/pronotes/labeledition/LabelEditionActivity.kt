@@ -2,6 +2,7 @@ package com.lamadridblandongoyes.pronotes.labeledition
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -15,11 +16,14 @@ import com.lamadridblandongoyes.pronotes.INTENT_EXTRA_LABEL
 import com.lamadridblandongoyes.pronotes.LABEL_VALIDATION_ERROR_SUBTITLE
 import com.lamadridblandongoyes.pronotes.LABEL_VALIDATION_ERROR_TITLE
 import com.lamadridblandongoyes.pronotes.R
+import com.skydoves.colorpickerview.ColorEnvelope
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_label_edition.*
 import javax.inject.Inject
 
-class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View {
+class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View, ColorEnvelopeListener {
 
     @Inject
     lateinit var presenter: LabelEditionContract.Presenter
@@ -30,6 +34,8 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
     private lateinit var saveButton: AppCompatButton
     private lateinit var labelColorTextView: AppCompatTextView
     private lateinit var selectColorButton: AppCompatImageButton
+
+    private var selectedColor = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +52,7 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
     override fun getFormData(): LabelEditionContract.View.ViewModel =
         LabelEditionContract.View.ViewModel(
             labelTitle.text.toString(),
-            "#FF0000"
+            selectedColor
         )
 
     override fun navigateBackWith(label: Label?) {
@@ -112,6 +118,7 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
     }
 
     override fun setLabelColor(hexColor: String) {
+        selectedColor = hexColor
         labelColorTextView.setBackgroundColor(Color.parseColor(hexColor))
     }
 
@@ -120,6 +127,21 @@ class LabelEditionActivity: DaggerAppCompatActivity(), LabelEditionContract.View
     }
 
     override fun presentColorPickerDialog() {
-        
+        ColorPickerDialog.Builder(this)
+            .setTitle("ColorPicker Dialog")
+            .setPreferenceName("MyColorPickerDialog")
+            .setPositiveButton(android.R.string.ok, this)
+            .setNegativeButton(android.R.string.cancel) { dialogInterface: DialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            .attachAlphaSlideBar(false)
+            .attachBrightnessSlideBar(false)
+            .show()
+    }
+
+    override fun onColorSelected(envelope: ColorEnvelope?, fromUser: Boolean) {
+        envelope?.let {
+            setLabelColor( "#" + it.hexCode )
+        }
     }
 }
