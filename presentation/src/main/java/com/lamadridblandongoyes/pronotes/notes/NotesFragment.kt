@@ -1,6 +1,8 @@
 package com.lamadridblandongoyes.pronotes.notes
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.lamadridblandongoyes.domain.models.Note
-import com.lamadridblandongoyes.pronotes.NOTES_NUMBER_OF_COLUMNS
-import com.lamadridblandongoyes.pronotes.R
-import com.lamadridblandongoyes.pronotes.REMOVE_NOTE_SUBTITLE
-import com.lamadridblandongoyes.pronotes.REMOVE_NOTE_TITLE
+import com.lamadridblandongoyes.pronotes.*
+import com.lamadridblandongoyes.pronotes.noteedition.NoteEditionActivity
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_notes.*
 import javax.inject.Inject
@@ -59,7 +59,34 @@ class NotesFragment: DaggerFragment(),
     }
 
     override fun navigateTowardsNoteEditionWith(note: Note?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(activity, NoteEditionActivity::class.java)
+
+        if (note == null) {
+            startActivityForResult(intent, ADDING_NOTE_REQUEST_CODE)
+            return
+        }
+
+        note.let {
+            intent.putExtra(INTENT_EXTRA_NOTE, note)
+            startActivityForResult(intent, EDITING_NOTE_REQUEST_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+
+        when (requestCode) {
+            ADDING_NOTE_REQUEST_CODE -> {
+                presenter.processAddingNoteResult(data?.extras?.getParcelable(INTENT_EXTRA_NOTE))
+            }
+            EDITING_NOTE_REQUEST_CODE -> {
+                presenter.processEditingNoteResult(data?.extras?.getParcelable(INTENT_EXTRA_NOTE))
+            }
+        }
     }
 
     override fun askForDeletionConfirmationWith(index: Int) {
