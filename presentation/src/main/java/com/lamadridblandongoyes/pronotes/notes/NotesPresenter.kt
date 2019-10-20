@@ -59,7 +59,12 @@ class NotesPresenter(
 
     override fun onAddButtonTapped() {
         labels?.let {
-            view?.navigateTowardsNoteEditionWith(note = null, labels = it)
+
+            if (it.isEmpty()) {
+                view?.presentEmptyLabelsDialog()
+            } else {
+                view?.navigateTowardsNoteEditionWith(note = null, labels = it)
+            }
         }
     }
 

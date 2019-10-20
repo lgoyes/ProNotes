@@ -107,6 +107,16 @@ class NotesFragment: DaggerFragment(),
         builder.show()
     }
 
+    override fun presentEmptyLabelsDialog() {
+        val builder = AlertDialog.Builder(activity)
+            .apply {
+                setTitle(NO_LABELS_TITLE)
+                setMessage(NO_LABELS_SUBTITLE)
+                setPositiveButton(android.R.string.ok) { _, _ -> }
+            }
+        builder.show()
+    }
+
     override fun showError(error: String) {
         Toast.makeText(context, error, Toast.LENGTH_LONG).show()
     }

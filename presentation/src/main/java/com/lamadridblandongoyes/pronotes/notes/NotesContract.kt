@@ -10,6 +10,7 @@ interface NotesContract {
         fun updateAdapterWith(notes: ArrayList<Note>, labels: List<Label>)
         fun navigateTowardsNoteEditionWith(note: Note?, labels: List<Label>)
         fun askForDeletionConfirmationWith(index: Int)
+        fun presentEmptyLabelsDialog()
     }
 
     interface Presenter: BasePresenter<View> {
