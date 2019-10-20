@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.lamadridblandongoyes.domain.models.Label
 import com.lamadridblandongoyes.domain.models.Note
 import com.lamadridblandongoyes.pronotes.*
 import com.lamadridblandongoyes.pronotes.noteedition.NoteEditionActivity
@@ -52,14 +53,18 @@ class NotesFragment: DaggerFragment(),
         presenter.bind(this)
     }
 
-    override fun updateAdapterWith(notes: ArrayList<Note>) {
+    override fun updateAdapterWith(notes: ArrayList<Note>, labels: List<Label>) {
         this.notesAdapter.clearNotes()
+        this.notesAdapter.clearLabels()
         this.notesAdapter.addNotes(notes)
+        this.notesAdapter.addLabels(labels)
         this.notesAdapter.notifyDataSetChanged()
     }
 
-    override fun navigateTowardsNoteEditionWith(note: Note?) {
+    override fun navigateTowardsNoteEditionWith(note: Note?, labels: List<Label>) {
         val intent = Intent(activity, NoteEditionActivity::class.java)
+
+        intent.putParcelableArrayListExtra(INTENT_EXTRA_LABEL_LIST, ArrayList(labels))
 
         if (note == null) {
             startActivityForResult(intent, ADDING_NOTE_REQUEST_CODE)

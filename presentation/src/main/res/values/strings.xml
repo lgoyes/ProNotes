@@ -2,6 +2,7 @@
     <string name="app_name">ProNotes</string>
     <string name="note_title">Note\'s title</string>
     <string name="note_description">Note\'s description</string>
+    <string name="note_select_label">Select label</string>
     <string name="save_button">Save</string>
     <string name="new_note">New Note</string>
     <string name="edit_note">Edit Note</string>

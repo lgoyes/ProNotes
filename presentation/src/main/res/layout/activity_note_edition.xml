@@ -54,6 +54,17 @@
         app:layout_constraintTop_toBottomOf="@id/note_edition_note_title_field"
         android:hint="@string/note_description" />
 
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/note_edition_label_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/note_edition_note_description_field"
+        android:spinnerMode="dialog"
+        android:prompt="@string/note_select_label"
+        />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/note_edition_save_button"
         android:layout_width="0dp"

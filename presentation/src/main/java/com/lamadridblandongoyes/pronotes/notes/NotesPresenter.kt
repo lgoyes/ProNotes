@@ -4,6 +4,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.lamadridblandongoyes.domain.interactors.base.FlowableUseCase
 import com.lamadridblandongoyes.domain.interactors.base.ObservableUseCase
+import com.lamadridblandongoyes.domain.models.Label
 import com.lamadridblandongoyes.domain.models.Note
 import com.lamadridblandongoyes.pronotes.architecturebasis.BasePresenter
 import com.lamadridblandongoyes.pronotes.architecturebasis.IErrorHandler
@@ -11,6 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 class NotesPresenter(
     private val getAllNotesInteractor: FlowableUseCase<List<Note>, Unit>,
+    private val getAllLabelsInteractor: FlowableUseCase<List<Label>, Unit>,
     private val insertNoteInteractor: ObservableUseCase<Long, Note>,
     private val updateNoteInteractor: ObservableUseCase<Int, Note>,
     private val deleteNoteInteractor: ObservableUseCase<Int, Note>
@@ -21,15 +23,18 @@ class NotesPresenter(
     override val subscriptions = CompositeDisposable()
 
     private var notes: ArrayList<Note> = ArrayList<Note>()
+    private var labels: List<Label>? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun start() {
-        fetchNotes()
+        fetchLabels()
     }
 
     override fun processItemTappedWith(index: Int) {
         notes[index].let { note ->
-            view?.navigateTowardsNoteEditionWith(note = note)
+            labels?.let {
+                view?.navigateTowardsNoteEditionWith(note = note, labels = it)
+            }
         }
     }
 
@@ -53,7 +58,9 @@ class NotesPresenter(
     }
 
     override fun onAddButtonTapped() {
-        view?.navigateTowardsNoteEditionWith(note = null)
+        labels?.let {
+            view?.navigateTowardsNoteEditionWith(note = null, labels = it)
+        }
     }
 
     override fun processAddingNoteResult(note: Note?) {
@@ -91,6 +98,17 @@ class NotesPresenter(
         }
     }
 
+    private fun fetchLabels() {
+        subscriptions.add(
+            getAllLabelsInteractor.execute(Unit, { extractedLabels ->
+                this.labels = extractedLabels
+                this.fetchNotes()
+            },{
+                this.handleException(it)
+            })
+        )
+    }
+
     private fun fetchNotes() {
         subscriptions.add(
             getAllNotesInteractor.execute(Unit,{ extractedNotes ->
@@ -103,6 +121,8 @@ class NotesPresenter(
     }
 
     private fun updateAdapter() {
-        view?.updateAdapterWith(this.notes)
+        this.labels?.let {
+            view?.updateAdapterWith(this.notes, it)
+        }
     }
 }

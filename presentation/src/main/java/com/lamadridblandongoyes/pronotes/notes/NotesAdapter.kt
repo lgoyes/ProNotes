@@ -1,10 +1,12 @@
 package com.lamadridblandongoyes.pronotes.notes
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.lamadridblandongoyes.domain.models.Label
 import com.lamadridblandongoyes.domain.models.Note
 import com.lamadridblandongoyes.pronotes.R
 import com.lamadridblandongoyes.pronotes.notes.NotesAdapter.NoteViewHolder
@@ -14,6 +16,7 @@ class NotesAdapter(private var itemTapListener: ItemTapListener)
     : RecyclerView.Adapter<NoteViewHolder>() {
 
     private var notes: ArrayList<Note> = ArrayList<Note>()
+    private var labels: ArrayList<Label> = ArrayList<Label>()
 
     fun addNotes(notes: ArrayList<Note>) {
         this.notes.addAll(notes)
@@ -23,8 +26,12 @@ class NotesAdapter(private var itemTapListener: ItemTapListener)
         this.notes.clear()
     }
 
-    fun addNote(note: Note) {
-        this.notes.add(note)
+    fun addLabels(labels: List<Label>) {
+        this.labels.addAll(labels)
+    }
+
+    fun clearLabels() {
+        this.labels.clear()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -35,8 +42,16 @@ class NotesAdapter(private var itemTapListener: ItemTapListener)
     override fun getItemCount(): Int = notes.size
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.tvTitle.text = notes[position].title
-        holder.tvDescription.text = notes[position].description
+        val note = notes[position]
+
+        holder.tvTitle.text = note.title
+        holder.tvDescription.text = note.description
+
+        note.labelId?.let { labelId ->
+            labels.firstOrNull { it.labelId == labelId }?.let {
+                    holder.itemView.setBackgroundColor(Color.parseColor(it.color))
+                }
+        }
 
         holder.itemView.setOnClickListener {
             itemTapListener.onItemTapped(position)

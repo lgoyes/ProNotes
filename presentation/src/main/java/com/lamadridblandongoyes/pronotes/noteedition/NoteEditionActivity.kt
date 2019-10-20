@@ -8,11 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
+import com.lamadridblandongoyes.domain.models.Label
 import com.lamadridblandongoyes.domain.models.Note
-import com.lamadridblandongoyes.pronotes.INTENT_EXTRA_NOTE
-import com.lamadridblandongoyes.pronotes.NOTE_VALIDATION_ERROR_SUBTITLE
-import com.lamadridblandongoyes.pronotes.NOTE_VALIDATION_ERROR_TITLE
-import com.lamadridblandongoyes.pronotes.R
+import com.lamadridblandongoyes.pronotes.*
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_note_edition.*
 import javax.inject.Inject
@@ -27,6 +25,8 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
     private lateinit var noteTitle: AppCompatEditText
     private lateinit var noteDescription: AppCompatEditText
     private lateinit var saveButton: AppCompatButton
+
+    private var labels: ArrayList<Label> = ArrayList<Label>()
 
     override fun showError(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
@@ -86,6 +86,10 @@ class NoteEditionActivity: DaggerAppCompatActivity(), NoteEditionContract.View {
 
     private fun fillForm() {
         val noteUnderEdition: Note? = intent.extras?.getParcelable(INTENT_EXTRA_NOTE)
+
+        intent.extras?.getParcelableArrayList<Label>(INTENT_EXTRA_LABEL_LIST)?.let {
+            this.labels = it
+        }
 
         if (noteUnderEdition == null) {
             fillFormForNewNote()
